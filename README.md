@@ -36,6 +36,7 @@ git clone https://github.com/zhengchen1999/RGT.git
 conda create -n RGT python=3.8
 conda activate RGT
 pip install -r requirements.txt -f https://download.pytorch.org/whl/torch_stable.html
+pip install six
 python setup.py develop
 ```
 
