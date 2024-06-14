@@ -1,27 +1,9 @@
-# Recursive Generalization Transformer for Image Super-Resolution
-
-[Zheng Chen](https://zhengchen1999.github.io/), [Yulun Zhang](http://yulunzhang.com/), [Jinjin Gu](https://www.jasongt.com/), [Linghe Kong](https://www.cs.sjtu.edu.cn/~linghe.kong/), and [Xiaokang Yang](https://scholar.google.com/citations?user=yDEavdMAAAAJ), "Recursive Generalization Transformer for Image Super-Resolution", ICLR, 2024
-
-[[paper](https://openreview.net/pdf?id=owziuM1nsR)] [[arXiv](https://arxiv.org/abs/2303.06373)] [[supplementary material](https://openreview.net/attachment?id=owziuM1nsR&name=supplementary_material)] [[visual results](https://drive.google.com/drive/folders/1TWIl66LPtojEbnlUr-s7qkUuTd7RF7Hp?usp=sharing)] [[pretrained models](https://drive.google.com/drive/folders/1UNn5LvnfQAi6eHAHz-mTYWu8vCJs5kwu?usp=sharing)]
-
-#### 🔥🔥🔥 News
-
-- **2024-02-04:** Code and pre-trained models are released. 🎊🎊🎊
-- **2023-09-29:** This repo is released.
-
----
-
-> **Abstract:** Transformer architectures have exhibited remarkable performance in image superresolution (SR). Since the quadratic computational complexity of the selfattention (SA) in Transformer, existing methods tend to adopt SA in a local region to reduce overheads. However, the local design restricts the global context exploitation, which is crucial for accurate image reconstruction. In this work, we propose the Recursive Generalization Transformer (RGT) for image SR, which can capture global spatial information and is suitable for high-resolution images. Specifically, we propose the recursive-generalization self-attention (RG-SA). It recursively aggregates input features into representative feature maps, and then utilizes cross-attention to extract global information. Meanwhile, the channel dimensions of attention matrices ($query$, $key$, and $value$) are further scaled to mitigate the redundancy in the channel domain. Furthermore, we combine the RG-SA with local self-attention to enhance the exploitation of the global context, and propose the hybrid adaptive integration (HAI) for module integration. The HAI allows the direct and effective fusion between features at different levels (local or global). Extensive experiments demonstrate that our RGT outperforms recent state-of-the-art methods quantitatively and qualitatively.
-
-![](figs/RGT.png)
-
----
-
-|                     HR                     |                       LR                        | [SwinIR](https://github.com/JingyunLiang/SwinIR) | [CAT](https://github.com/zhengchen1999/CAT) |                 RGT (ours)                  |
-| :----------------------------------------: | :---------------------------------------------: | :----------------------------------------------: | :-----------------------------------------: | :-----------------------------------------: |
-| <img src="figs/img_1_HR_x4.png" height=80> | <img src="figs/img_1_Bicubic_x4.png" height=80> |  <img src="figs/img_1_SwinIR_x4.png" height=80>  | <img src="figs/img_1_CAT_x4.png" height=80> | <img src="figs/img_1_RGT_x4.png" height=80> |
-| <img src="figs/img_2_HR_x4.png" height=80> | <img src="figs/img_2_Bicubic_x4.png" height=80> |  <img src="figs/img_2_SwinIR_x4.png" height=80>  | <img src="figs/img_2_CAT_x4.png" height=80> | <img src="figs/img_2_RGT_x4.png" height=80> |
-
+# Тренировка (на VM с 16 vCPU, 24GB RAM, Tesla V100)
+python -m torch.distributed.launch --nproc_per_node=1 --master_port=4321 basicsr/train.py -opt options/train/train_RGT_x4.yml --launcher pytorch </br>
+-nproc_per_node=1 для nvidia A100 </br> 
+RGT_x4 результат: </br>
+Одна эпоха обучается +- 9 минут </br>
+Большой недостаток: расход памяти. Для апскейла 600x600 в x4 требуется ~31 Гб </br>
 
 
 ## ⚙️ Dependencies
@@ -39,27 +21,6 @@ pip install -r requirements.txt -f https://download.pytorch.org/whl/torch_stable
 pip install six
 python setup.py develop
 ```
-
-
-
-## ⚒️ TODO
-
-* [x] Release code and pretrained models
-
-
-
-## 🔗 Contents
-
-1. [Datasets](#datasets)
-1. [Models](#models)
-1. [Training](#training)
-1. [Testing](#testing)
-1. [Results](#results)
-1. [Citation](#citation)
-1. [Acknowledgements](#acknowledgements)
-
----
-
 
 
 ## <a name="datasets"></a>🖨️ Datasets
